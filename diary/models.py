@@ -8,4 +8,3 @@ class Diary(models.Model):
 
     class Meta:
         db_table = 'diary'
-
