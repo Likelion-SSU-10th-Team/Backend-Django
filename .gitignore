@@ -1,0 +1,32 @@
+# Django stuff:
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media
+# 중요 secet info
+secrets.json
+# migrate 충돌 회피하기 위해서
+accounts/migrations/**
+!accounts/migrations/__init__.py
+album/migrations/**
+!album/migrations/__init__.py
+diary/migrations/**
+!diary/migrations/__init__.py
+film/migrations/**
+!film/migrations/__init__.py
+
+### venv ###
+# Virtualenv
+# http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
+[Bb]in
+[Ii]nclude
+[Ll]ib
+[Ll]ib64
+[Ll]ocal
+[Ss]cripts
+pyvenv.cfg
+pip-selfcheck.json
