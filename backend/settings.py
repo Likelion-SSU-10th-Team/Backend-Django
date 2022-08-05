@@ -121,7 +121,7 @@ DATABASES = {
         'NAME': 'storyfilm',
         'USER': 'root',
         'PASSWORD': '9987', # mariaDB 설치 시 입력한 root 비밀번호 입력
-        'HOST': 'localhost',
+        'HOST': 'mariadb',
         'PORT': 3306
     }
 }
