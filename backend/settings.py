@@ -119,7 +119,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': '9987', # mariaDB 설치 시 입력한 root 비밀번호 입력
         'HOST': 'localhost',
-        'PORT': 3307
+        'PORT': 3306
     }
 }
 
