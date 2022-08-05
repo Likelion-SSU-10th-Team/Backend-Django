@@ -117,12 +117,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # mysqlclient librarly 설치
-        'NAME': 'storyfilm',
-        'USER': 'root',
-        'PASSWORD': '9987', # mariaDB 설치 시 입력한 root 비밀번호 입력
-        'HOST': 'mariadb',
-        'PORT': 3306
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ['DATABASE'],
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST': os.environ['DB_HOST'],
+        'PORT': os.environ['DB_PORT'],
     }
 }
 
