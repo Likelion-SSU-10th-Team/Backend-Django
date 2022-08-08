@@ -34,9 +34,8 @@ def login(request):
         if User.objects.filter(email=data["email"]).exists():
             user = User.objects.get(email=data["email"])
             session_id = user.email+user.password
-            User.objects.update(
-                session_id = session_id
-            )
+            user.session_id=session_id
+            user.save()
 
             if bcrypt.checkpw(data['password'].encode('UTF-8'), user.password.encode('UTF-8')):
                 return JsonResponse({"session_id": session_id}, status=200)
@@ -53,11 +52,11 @@ def logout(request):
     data = json.loads(request.body)
 
     try:
-        if User.session_id:
-            User.objects.update(
-                session_id=""
-            )
-            return JsonResponse({"session_id": ""}, status=200)
+        user = User.objects.get(email=data["email"])
+        if user.session_id:
+            user.session_id = ""
+            user.save()
+            return JsonResponse({"session_id": user.session_id}, status=200)
         return HttpResponse(status=200)
 
     except KeyError:
