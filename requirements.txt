@@ -1,6 +1,9 @@
 asgiref==3.5.2
+bcrypt==3.2.2
+cffi==1.15.1
 Django==3.2.14
 django-cors-headers==3.13.0
+pycparser==2.21
 PyMySQL==1.0.2
 pytz==2022.1
 sqlparse==0.4.2
