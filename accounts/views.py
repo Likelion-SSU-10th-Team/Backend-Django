@@ -10,6 +10,7 @@ from django.http import HttpResponse, JsonResponse
 
 @csrf_exempt
 def register(request):
+    print(request.body)
     data = json.loads(request.body)
 
     try:
@@ -29,18 +30,18 @@ def register(request):
 
 def login(request):
     data = json.loads(request.body)
+    user = User.objects.get(email=data["email"])
 
-    try:
-        if User.objects.filter(email=data["email"]).exists():
-            user = User.objects.get(email=data["email"])
+    try: # email이랑 password로 존재하는 회원가입을 하였는지 체크
+        if User.objects.filter(email=data["email"]).exists()\
+                and bcrypt.checkpw(data['password'].encode('UTF-8'), user.password.encode('UTF-8')):
             session_id = user.email+user.password
-            user.session_id=session_id
+            user.session_id = session_id
             user.save()
-
-            if bcrypt.checkpw(data['password'].encode('UTF-8'), user.password.encode('UTF-8')):
-                return JsonResponse({"session_id": session_id}, status=200)
-
-            return HttpResponse(status=401)
+            # chrome이든 edge든 response에 session_id 값 만들어서 리턴해주기
+            response = HttpResponse("로그인 성공", status=200)
+            response.set_cookie('session_id', session_id)
+            return response
 
         return HttpResponse(status=400)
 
@@ -49,15 +50,26 @@ def login(request):
 
 
 def logout(request):
-    data = json.loads(request.body)
-
     try:
-        user = User.objects.get(email=data["email"])
+        user = User.objects.get(session_id=request.COOKIES.get('session_id'))
         if user.session_id:
             user.session_id = ""
             user.save()
-            return JsonResponse({"session_id": user.session_id}, status=200)
-        return HttpResponse(status=200)
+
+            response = HttpResponse("로그아웃 성공", status=200)
+            response.delete_cookie('session_id')
+            return response
+
+        return HttpResponse(status=400)
 
     except KeyError:
         return JsonResponse({'message': "INVALID_KEYS"}, status=400)
+
+
+def session(request):
+    print(request.COOKIES)
+    print(request.COOKIES.get('sessionid')) # edge
+    print(request.COOKIES.get('JSESSIONID')) # chrome
+    response = HttpResponse('session 테스트')
+    response.set_cookie('test', 'test')
+    return response
