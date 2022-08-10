@@ -2,6 +2,7 @@ import json
 
 
 from accounts.models import User
+from diary.models import Diary
 from django.shortcuts import render, get_object_or_404
 from .models import *
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
