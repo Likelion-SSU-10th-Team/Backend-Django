@@ -4,5 +4,5 @@ from . import views
 
 urlpatterns = [
     path('write/', views.diaryWrite),
-    # path('comment/', views.comment),
+    path('comment/<int:diary_id>', views.comment),
 ]

@@ -25,18 +25,18 @@ def diaryWrite(request):
         return JsonResponse({"message": "INVALID_KEYS"}, status=400)
 
 #댓글작성
-def comment(request):
+def comment(request, diary_id):
     data = json.loads(request.body)
 
     try:
         user = User.objects.get(session_id=request.COOKIES.get('session_id'))
-        diary = Diary.objects.get(writer=user.email)
-        if diary.writer:
+        diary = Diary.objects.get(pk=diary_id, writer=user.pk)
+        if diary:
             Comment.objects.create(
-                belong_to_diary=diary, #여긴 불확실함
+                belong_to_diary=diary,
                 comment=data['comment']
             ).save()
-        return HttpResponse(status=200)
+        return HttpResponse("댓글작성 성공", status=200)
 
 
     except KeyError:
