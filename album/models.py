@@ -13,3 +13,16 @@ class Album(models.Model):
 
     class Meta:
         db_table = 'album'
+
+class Composition(models.Model):
+    album = models.ForeignKey('album.Album', on_delete=models.CASCADE, db_column='album',
+                              null=True, blank=True)
+    diary = models.ForeignKey('diary.Diary', on_delete=models.CASCADE, db_column='diary',
+                              null=True, blank=True)
+
+    def __str__(self):
+        name = str(self.album)+" 에 속해있는 "+str(self.diary)
+        return name
+
+    class Meta:
+        db_table = 'composition'
