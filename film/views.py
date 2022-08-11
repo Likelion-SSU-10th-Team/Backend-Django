@@ -37,6 +37,7 @@ def main_film(request):
                     film.isFull = True # Film통 정보 update(가득참, endDate -> update)
                     film.endDate = timezone.localtime()
                     film.save()
+                    # 추후 배포 IP로 바꿔야함
                     return HttpResponseRedirect('http://localhost:8000/film/' + str(film_id))
                 response_body = {
                     'film_size': film.size,
