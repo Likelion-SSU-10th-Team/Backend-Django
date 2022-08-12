@@ -82,10 +82,21 @@ def diary_detail(request, album_id, diary_id) :
 def select_album(request, diary_id, album_id):
     user = find_user_by_sid(request)
     diary = d.Diary.objects.get(pk=diary_id, writer=user.pk)
-    album_id = request.POST.getlist('selected_album[]')  # 선택한 앨범의 pk값이 들어간 배열을 넘겨 받아 리스트에 저장
-    for i in range(album_id.length):
-        composition = d.Composition(
-            diary=diary,
-            album=Album.objects.filter(pk=album_id[i])
-    )
-    composition.save()
+    albums = Album.objects.filter(owner=user.pk)
+
+    # album_id_list = [4, 5]
+    # album_id_list = request.POST.getlist('selected_album[]')
+
+    data = json.loads(request.body)
+    album_id_list = data['selected_album']
+    print(album_id_list)
+    for i in range(len(album_id_list)):
+        for album in albums:
+            if album_id_list[i] == album.pk:
+                composition = Composition(
+                    diary=diary,
+                    album=album
+                )
+            composition.save()
+
+    return HttpResponse(status=200)
