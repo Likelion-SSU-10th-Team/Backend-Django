@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 
 
+@csrf_exempt
 def register(request):
     print(request.body)
     data = json.loads(request.body)
@@ -18,8 +19,7 @@ def register(request):
         User.objects.create(
             email=data['email'],
             password=bcrypt.hashpw(data["password"].encode("UTF-8"), bcrypt.gensalt()).decode("UTF-8"),
-            name=data['name'],
-            age=data['age']
+            name=data['name']
         ).save()
         return HttpResponse(status=200)
 
@@ -27,6 +27,7 @@ def register(request):
         return JsonResponse({"message": "INVALID_KEYS"}, status=400)
 
 
+@csrf_exempt
 def login(request):
     data = json.loads(request.body)
     user = User.objects.get(email=data["email"])
@@ -48,6 +49,7 @@ def login(request):
         return JsonResponse({'message': "INVALID_KEYS"}, status=400)
 
 
+@csrf_exempt
 def logout(request):
     # session_id랑 user가 일치하는지 확인하는 부분도 필요할 듯?
     try:
