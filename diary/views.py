@@ -1,27 +1,40 @@
-from django.shortcuts import render
-import json
+import boto3, json, random, string
 
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Diary, Comment
 from accounts.models import User
 from django.http import HttpResponse, JsonResponse
+from backend.settings import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME, IMAGE_URL
 # Create your views here.
 
 
 #일기쓰기
 @csrf_exempt
-def diaryWrite(request):
-    data = json.loads(request.body)
-
+def diary_write(request):
+    n = 20
+    rand_str = ""
+    for i in range(n):
+        rand_str += str(random.choice(string.ascii_uppercase + string.digits))
     try:
         user = User.objects.get(session_id=request.COOKIES.get('session_id'))
+        if request.POST['image'] is '':
+            image_url = "https://myimageimagebucket.s3.ap-northeast-2.amazonaws.com/example/default.png"
+        else:
+            image = request.FILES.__getitem__('image')
+            s3r = boto3.resource('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+            key = "%s" % (user)
+            image._set_name(rand_str)
+            s3r.Bucket(AWS_STORAGE_BUCKET_NAME).put_object(Key=key + '/%s' % (image), Body=image, ContentType='.png')
+            image_url = IMAGE_URL + "%s/%s" % (user, image)
+        content = request.POST['content']
+
         if user.session_id:
-            Diary.objects.create(
+            Diary(
                 writer=user,
                 belong_to_film=user.current_film,
-                image=data['image'],
-                content=data['content']
+                image=image_url,
+                content=content
             ).save()
         return HttpResponse("일기작성 성공", status=200)
 

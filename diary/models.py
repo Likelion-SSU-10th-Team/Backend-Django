@@ -7,7 +7,7 @@ class Diary(models.Model):
     writer = models.ForeignKey('accounts.User', on_delete=models.CASCADE, db_column='writer')
     belong_to_film = models.ForeignKey('film.Film', on_delete=models.CASCADE, db_column='belong_to_film',
                                        null=True, blank=True)
-    image = models.URLField(null=True, blank=True)
+    image = models.TextField(null=True, blank=True)
     content = models.TextField(null=True, blank=True)
     createdAt = models.DateTimeField(auto_now_add=True, null=True)
 
