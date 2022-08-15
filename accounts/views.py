@@ -44,11 +44,14 @@ def login(request):
             user.session_id = session_id
             user.save()
             # chrome이든 edge든 response에 session_id 값 만들어서 리턴해주기
-            response = JsonResponse({"msg": "login success"}, status=200)
-            response.set_cookie('session_id', session_id, domain=None)
+            # response = JsonResponse({"msg": "login success"}, status=200)
+            # response.headers('session_id', session_id)
+            # response.set_cookie('session_id', session_id, domain="localhost:3002")
+            response = HttpResponse(status=200)
+            response.__setitem__('session_id', session_id)
             return response
 
-        return JsonResponse({"msg":"invalid pw"}, status=400)
+        return JsonResponse({"msg": "invalid pw"}, status=400)
 
     except KeyError:
         return JsonResponse({'message': "INVALID_KEYS"}, status=400)
