@@ -2,6 +2,7 @@ from django.shortcuts import render
 import json
 import bcrypt
 from .models import User
+from album.models import Album
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
@@ -16,10 +17,14 @@ def register(request):
     try:
         if User.objects.filter(email=data['email']).exists():
             return JsonResponse({"message": "EXISTS_EMAIL"}, status=400)
-        User.objects.create(
+        user = User.objects.create(
             email=data['email'],
             password=bcrypt.hashpw(data["password"].encode("UTF-8"), bcrypt.gensalt()).decode("UTF-8"),
             name=data['name']
+        )
+        Album(
+            name='기본',
+            owner=user
         ).save()
         return HttpResponse(status=200)
 
