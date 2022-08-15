@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 import json
 import bcrypt
 from .models import User
@@ -35,7 +35,7 @@ def register(request):
 @csrf_exempt
 def login(request):
     data = json.loads(request.body)
-    user = User.objects.get(email=data["email"])
+    user = get_object_or_404(User, email=data["email"])
 
     try: # email이랑 password로 존재하는 회원가입을 하였는지 체크
         if User.objects.filter(email=data["email"]).exists()\
@@ -44,11 +44,11 @@ def login(request):
             user.session_id = session_id
             user.save()
             # chrome이든 edge든 response에 session_id 값 만들어서 리턴해주기
-            response = HttpResponse("로그인 성공", status=200)
+            response = JsonResponse({"msg": "login success"}, status=200)
             response.set_cookie('session_id', session_id)
             return response
 
-        return HttpResponse(status=400)
+        return JsonResponse({"msg":"invalid pw"}, status=400)
 
     except KeyError:
         return JsonResponse({'message': "INVALID_KEYS"}, status=400)
@@ -78,5 +78,5 @@ def session(request):
     print(request.COOKIES.get('sessionid')) # edge
     print(request.COOKIES.get('JSESSIONID')) # chrome
     response = HttpResponse('session 테스트')
-    response.set_cookie('test', 'test')
+    response.set_cookie('test', 'test1111')
     return response
