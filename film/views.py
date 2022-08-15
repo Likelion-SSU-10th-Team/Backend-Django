@@ -1,9 +1,11 @@
 import json
 
+from django.db.models import Count
 from django.forms import model_to_dict
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import *
 from accounts.models import User
@@ -24,6 +26,7 @@ def find_user_by_sid(request):
 #   1-2. 필름을 쓰고 있다면? -> 사용중인 영역까지만 image return GET ✔
 #   1-3. 필름이 가득 찼다면?(메인 페이지 갈때마다 film이 가득 찼는지 정보가 감) ✔
 #                               -> 필름 내용을 전체 조회(일기:사진,쓴 날짜) GET
+@csrf_exempt
 def main_film(request):
     user = find_user_by_sid(request) # 로그인한 사람이 누군지?
     if request.method == 'GET':
@@ -37,8 +40,8 @@ def main_film(request):
                     film.isFull = True # Film통 정보 update(가득참, endDate -> update)
                     film.endDate = timezone.localtime()
                     film.save()
-                    # 추후 배포 IP로 바꿔야함
-                    return HttpResponseRedirect('http://localhost:8000/film/' + str(film_id))
+                    # msg = "film is full"
+                    # return HttpResponse(msg, status=200)
                 response_body = {
                     'film_size': film.size,
                     'film_cnt': film.count,
@@ -64,7 +67,41 @@ def main_film(request):
         return HttpResponse(status=400)
 
 
+# 추가. 사용자 이용 내역 조회해서 기록에 따라 선택 가능한거 보여주기
+@csrf_exempt
+def choose_film(request):
+    user = find_user_by_sid(request)
+    if request.method == 'GET':
+        try:
+            films = Film.objects.filter(owner=user.pk).values('size').annotate(dcount=Count('size'))
+            film_small = True
+            film_medium = False
+            film_big = False
+            for f in films:
+                if f['size'] is 15 and f['dcount'] > 0:
+                    film_medium = True
+                elif f['size'] is 31 and f['dcount'] > 0:
+                    film_big = True
+
+            response_body = {
+                'film_small': film_small,
+                'film_medium': film_medium,
+                'film_big': film_big,
+            }
+            return JsonResponse(response_body, status=200)
+        except:
+            response_body = {
+                'film_small': True,
+                'film_medium': False,
+                'film_big': False,
+            }
+            return JsonResponse(response_body, status=200)
+    else:
+        return HttpResponse(status=400)
+
+
 # 2. 필름 사이즈 고르면 그에 따라 새로운 필름 생성 POST
+@csrf_exempt
 def make_film(request):
     user = find_user_by_sid(request)
     data = json.loads(request.body)
@@ -85,6 +122,7 @@ def make_film(request):
 
 # 4. 필름 보관함 페이지(년도 별로 정렬 -> 필름 완성 날짜 순 정렬) : 유저의 필름 전체 조회 GET
 #   4-1. 1-3 재활용+필름 시작,끝 날짜
+@csrf_exempt
 def all_film(request):
     user = find_user_by_sid(request)
     if request.method == 'GET':
@@ -103,7 +141,41 @@ def all_film(request):
         return HttpResponse(status=400)
 
 
+# 유저가 보유한 필름 통의 사이즈 별로 분류
+@csrf_exempt
+def all_film_classify(request):
+    user = find_user_by_sid(request)
+    if request.method == 'GET':
+        try:
+            films = Film.objects.filter(owner=user.pk).values('size').annotate(dcount=Count('size'))
+            for f in films:
+                if f['size'] is 7:
+                    film_small = f['dcount']
+                elif f['size'] is 15:
+                    film_medium = f['dcount']
+                else:
+                    film_big = f['dcount']
+            response_body = {
+                'film_small': film_small,
+                'film_medium': film_medium,
+                'film_big': film_big,
+                'total': film_small+film_medium+film_big
+            }
+            return JsonResponse(response_body, status=200)
+        except:
+            response_body = {
+                'film_small': 0,
+                'film_medium': 0,
+                'film_big': 0,
+                'total': 0
+            }
+            return JsonResponse(response_body, status=200)
+    else:
+        return HttpResponse(status=400)
+
+
 # 5. 필름통 하나를 눌렀을 때 해당 필름의 정보 넘겨주기 GET <int:pk>
+@csrf_exempt
 def film_detail(request, pk):
     user = find_user_by_sid(request)
     if request.method == 'GET':
