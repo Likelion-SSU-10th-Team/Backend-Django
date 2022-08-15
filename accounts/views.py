@@ -47,7 +47,7 @@ def login(request):
             # response = JsonResponse({"msg": "login success"}, status=200)
             # response.headers('session_id', session_id)
             # response.set_cookie('session_id', session_id, domain="localhost:3002")
-            response = HttpResponse(status=200)
+            response = JsonResponse({"msg": "login success"}, status=200)
             response.__setitem__('session_id', session_id)
             return response
 
