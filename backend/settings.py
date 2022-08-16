@@ -63,9 +63,14 @@ MIDDLEWARE = [
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
 ]
+
+SECURE_CONTENT_TYPE_NOSNIFF = False
+SECURE_REFERRER_POLICY = None
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'None'
 
 ##CORS 관련 허용 사항 추가
 CORS_ORIGIN_ALLOW_ALL = True
@@ -82,6 +87,7 @@ CORS_ALLOW_METHODS = (
 
 CORS_ALLOW_HEADERS = (
     'session_id',
+    'Set-Cookie',
     'accept',
     'accept-encoding',
     'authorization',
@@ -127,8 +133,6 @@ DATABASES = {
         'PORT': os.environ['DB_PORT'],
     }
 }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
