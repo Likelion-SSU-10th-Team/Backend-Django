@@ -3,7 +3,7 @@ import json
 import bcrypt
 from .models import User
 from album.models import Album
-
+import requests as rq
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
@@ -49,6 +49,7 @@ def login(request):
             response = JsonResponse({"msg": "login success"}, status=200)
             response.set_cookie('session_id', session_id, samesite='None', secure=True)
             response.__setitem__('session_id', session_id)
+            response.__setitem__('authorization', session_id)
             return response
 
         return JsonResponse({"msg": "invalid pw"}, status=400)
@@ -81,5 +82,15 @@ def session(request):
     print(request.COOKIES.get('sessionid')) # edge
     print(request.COOKIES.get('JSESSIONID')) # chrome
     response = HttpResponse('session 테스트')
+    response.__setitem__('session_id', 'qqq')
+    response.__setitem__('authorization', 'qqq')
     response.set_cookie('test', 'test1111')
     return response
+
+
+def test(request):
+    url = "https://port-0-backend-django-1k5zz25l6f9nen1.gksl1.cloudtype.app/accounts/session"
+    # url = "http://localhost:8000/accounts/session"
+    result = rq.get(url).headers
+    print(result)
+    return HttpResponse(result, status=200)
