@@ -3,7 +3,6 @@ import json
 import bcrypt
 from .models import User
 from album.models import Album
-import requests as rq
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
@@ -34,6 +33,7 @@ def register(request):
 
 @csrf_exempt
 def login(request):
+    print(request.COOKIES.get('session_id'))
     data = json.loads(request.body)
     user = get_object_or_404(User, email=data["email"])
 
@@ -44,15 +44,9 @@ def login(request):
             user.session_id = session_id
             user.save()
             # chrome이든 edge든 response에 session_id 값 만들어서 리턴해주기
-            response = {
-                "session_id": session_id
-            }
-            # response = JsonResponse({"msg": "login success"}, status=200)
-            # response.headers('session_id', session_id)
-            response = JsonResponse(response, status=200)
+            response = JsonResponse({"msg": "login success"}, status=200)
             response.set_cookie('session_id', session_id, samesite='None', secure=True)
             response.__setitem__('session_id', session_id)
-            response.__setitem__('authorization', session_id)
             return response
 
         return JsonResponse({"msg": "invalid pw"}, status=400)
@@ -82,9 +76,7 @@ def logout(request):
 
 def session(request):
     print(request.headers)
-    print(request.headers['session-id'])
+    print(request.headers['session_id'])
+    print(request.COOKIES.get('session_id'))
     response = HttpResponse('session 테스트')
-    response.__setitem__('session_id', 'qqq')
-    response.__setitem__('authorization', 'qqq')
-    response.set_cookie('test', 'test1111')
     return response
