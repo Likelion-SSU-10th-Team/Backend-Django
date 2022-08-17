@@ -1,8 +1,5 @@
-<div align="center">
-<img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=header&text=📷&fontSize=90" />
-
 # 스토리 필름 - 나만의 일기 작성 공간
-#### 이야기를 남기다, 또 하나의 필름을 열다
+> #### 이야기를 남기다, 또 하나의 필름을 열다
 
 <img src="https://postfiles.pstatic.net/MjAyMjA4MTdfMTQ4/MDAxNjYwNzE1NTU2Mzgz.4w9MjULV3dfGhM0KvEeVqyHa_csXpb1p8uiqb8Mo06Ag.FbxL2IsnG59wu37UBEBdJGy1rR1n0zvYrzHMG2pZSjsg.PNG.coin6442/image.png?type=w773"/>
 
@@ -21,7 +18,6 @@
  지난 날을 돌아보면 많은 것을 얻을 거에요.
 ***
 ## 디렉터리 구조
-</div>
 
 ```
 ├─accounts
@@ -34,12 +30,10 @@
 │  
 └─film
 ```
-<div align="center">
  
 <a href="https://github.com/Likelion-SSU-10th-Team/Frontend-JS" >Front-end Repository</a>
 
 
- 
 ***
 ## 개발 프레임 워크
 ### 백엔드
@@ -53,6 +47,18 @@
 <img src="https://img.shields.io/badge/MariaDB-1F305F?style=flat-square&logo=MariaDB&logoColor=white"/>
  
 ***
+## 배포 환경
+<a href="https://cloudtype.io/">클라우드 타입</a>으로 서버를 구축했습니다.
+***
+
+## 실행 환경
+Windows
+
+***
+## 기타
+- 이미지 저장소는 Amazon S3를 사용했습니다. 
+
+
 ## 개발팀
 ### Front-end
 김윤미
@@ -61,4 +67,4 @@
 유승민 
 안영훈 
 정예림 
-</div>
+
