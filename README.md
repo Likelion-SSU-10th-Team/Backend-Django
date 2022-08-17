@@ -2,7 +2,7 @@
 <img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=header&text=📷&fontSize=90" />
 
 # 스토리 필름 - 나만의 일기 작성 공간
-> #### 이야기를 남기다, 또 하나의 필름을 열다
+#### 이야기를 남기다, 또 하나의 필름을 열다
 
 <img src="https://postfiles.pstatic.net/MjAyMjA4MTdfMTQ4/MDAxNjYwNzE1NTU2Mzgz.4w9MjULV3dfGhM0KvEeVqyHa_csXpb1p8uiqb8Mo06Ag.FbxL2IsnG59wu37UBEBdJGy1rR1n0zvYrzHMG2pZSjsg.PNG.coin6442/image.png?type=w773"/>
 
