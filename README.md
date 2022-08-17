@@ -20,6 +20,8 @@
  사진첩에서 열어보세요.
  지난 날을 돌아보면 많은 것을 얻을 거에요.
  
+</div>
+ 
 ## 디렉토리 구조
 ```
 ├─accounts
@@ -54,4 +56,4 @@
 
 ![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=footer)
  
- </
+ 
