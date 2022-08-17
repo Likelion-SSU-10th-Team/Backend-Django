@@ -86,8 +86,8 @@ CORS_ALLOW_METHODS = (
 )
 
 CORS_ALLOW_HEADERS = (
-    'session_id',
-    'Set-Cookie',
+    'Cookie',
+    'session-id',
     'accept',
     'accept-encoding',
     'authorization',
