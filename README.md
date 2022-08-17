@@ -19,7 +19,7 @@
  지금까지 모아둔 일기들을
  사진첩에서 열어보세요.
  지난 날을 돌아보면 많은 것을 얻을 거에요.
-
+***
 ## 디렉터리 구조
 </div>
 
@@ -34,20 +34,25 @@
 │  
 └─film
 ```
-
-- <a href="https://github.com/Likelion-SSU-10th-Team/Frontend-JS" >Front-end Repository</a>
-
 <div align="center">
+ 
+<a href="https://github.com/Likelion-SSU-10th-Team/Frontend-JS" >Front-end Repository</a>
+
+
+ 
+***
 ## 개발 프레임 워크
 ### 백엔드
 <img src="https://img.shields.io/badge/Django-092E20?style=flat-square&logo=django&logoColor=white"/>
 
 ### 프론트엔드
 <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=white"/>
-
+ 
+***
 ## 데이터 베이스
 <img src="https://img.shields.io/badge/MariaDB-1F305F?style=flat-square&logo=MariaDB&logoColor=white"/>
-
+ 
+***
 ## 개발팀
 ### Front-end
 김윤미
