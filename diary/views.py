@@ -18,9 +18,9 @@ def diary_write(request):
         rand_str += str(random.choice(string.ascii_uppercase + string.digits))
     try:
         user = User.objects.get(session_id=request.COOKIES.get('session_id'))
-        if request.POST['image'] is '':
-            image_url = "https://myimageimagebucket.s3.ap-northeast-2.amazonaws.com/example/default.png"
-        else:
+        image_url = "https://myimageimagebucket.s3.ap-northeast-2.amazonaws.com/example/default.png"
+        print(request.FILES.get('image'))
+        if request.FILES.get('image') is not None:
             image = request.FILES.__getitem__('image')
             s3r = boto3.resource('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
             key = "%s" % (user)
@@ -36,7 +36,7 @@ def diary_write(request):
                 image=image_url,
                 content=content
             ).save()
-        return HttpResponse("일기작성 성공", status=200)
+        return JsonResponse({"msg": "일기 작성 성공"}, status=200)
 
     except KeyError:
         return JsonResponse({"message": "INVALID_KEYS"}, status=400)
@@ -55,7 +55,7 @@ def comment(request, diary_id):
                 belong_to_diary=diary,
                 comment=data['comment']
             ).save()
-        return HttpResponse("댓글작성 성공", status=200)
+        return JsonResponse({"msg": "댓글 작성 성공"}, status=200)
 
     except KeyError:
         return JsonResponse({"message": "INVALID_KEYS"}, status=400)
