@@ -19,10 +19,10 @@
  지금까지 모아둔 일기들을
  사진첩에서 열어보세요.
  지난 날을 돌아보면 많은 것을 얻을 거에요.
- 
+
+## 디렉터리 구조
 </div>
- 
-## 디렉토리 구조
+
 ```
 ├─accounts
 │  
@@ -34,7 +34,10 @@
 │  
 └─film
 ```
+
 - <a href="https://github.com/Likelion-SSU-10th-Team/Frontend-JS" >Front-end Repository</a>
+
+<div align="center">
 ## 개발 프레임 워크
 ### 백엔드
 <img src="https://img.shields.io/badge/Django-092E20?style=flat-square&logo=django&logoColor=white"/>
@@ -47,17 +50,10 @@
 
 ## 개발팀
 ### Front-end
-  - 김윤미 @
-  - 김상민 @
+김윤미
+김상민 
 ### Back-end
-  - 유승민 @
-  - 안영훈 @
-  - 정예림 @limLion
-
-<div align="center">
-
-![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=footer)
- 
- </div>
- 
- 
+유승민 
+안영훈 
+정예림 
+</div>
