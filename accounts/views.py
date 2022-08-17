@@ -76,7 +76,6 @@ def logout(request):
 
 def session(request):
     print(request.headers)
-    print(request.headers['session_id'])
     print(request.COOKIES.get('session_id'))
     response = HttpResponse('session 테스트')
     return response
