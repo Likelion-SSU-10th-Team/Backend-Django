@@ -1,6 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-import json
-import bcrypt
+import bcrypt, json, random, string
 from .models import User
 from album.models import Album
 # Create your views here.
@@ -33,6 +32,10 @@ def register(request):
 
 @csrf_exempt
 def login(request):
+    n = 20
+    rand_str = ""
+    for i in range(n):
+        rand_str += str(random.choice(string.ascii_uppercase + string.digits))
     print(request.COOKIES.get('session_id'))
     data = json.loads(request.body)
     user = get_object_or_404(User, email=data["email"])
@@ -40,7 +43,7 @@ def login(request):
     try: # email이랑 password로 존재하는 회원가입을 하였는지 체크
         if User.objects.filter(email=data["email"]).exists()\
                 and bcrypt.checkpw(data['password'].encode('UTF-8'), user.password.encode('UTF-8')):
-            session_id = user.email+user.password
+            session_id = rand_str
             user.session_id = session_id
             user.save()
             # chrome이든 edge든 response에 session_id 값 만들어서 리턴해주기
