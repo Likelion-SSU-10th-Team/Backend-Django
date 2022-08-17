@@ -15,6 +15,8 @@ from diary.models import *
 # session_id로 user 인식
 def find_user_by_sid(request):
     session_id = request.COOKIES.get('session_id')
+    print(type(request.COOKIES.get('session_id')))
+    session_id = request.COOKIES.get('session_id')
     print("session_id : " + session_id)
     return get_object_or_404(User, session_id=session_id)
 
@@ -40,9 +42,8 @@ def main_film(request):
                     film.isFull = True # Film통 정보 update(가득참, endDate -> update)
                     film.endDate = timezone.localtime()
                     film.save()
-                    # msg = "film is full"
-                    # return HttpResponse(msg, status=200)
                 response_body = {
+                    'film_id': film_id,
                     'film_size': film.size,
                     'film_cnt': film.count,
                     'contents': [
@@ -56,7 +57,7 @@ def main_film(request):
             else:  # 선택된 필름이 없으면
                 return JsonResponse({'curr_film': None}, status=200)
         except:
-            return HttpResponse(status=400)
+            return JsonResponse({"msg": "실패!"}, status=400)
     # 3. 필름의 + 버튼을 누름 -> 일기 쓰는 페이지로 넘어가고 일기저장 버튼을 누름 -> 사이즈가 늘어나고 필름에 일기 등록됨 POST
     elif request.method == 'POST':
         film = Film.objects.get(pk=model_to_dict(user).get('current_film'))
@@ -78,9 +79,9 @@ def choose_film(request):
             film_medium = False
             film_big = False
             for f in films:
-                if f['size'] is 15 and f['dcount'] > 0:
+                if f['size'] is 7 and f['dcount'] > 0:
                     film_medium = True
-                elif f['size'] is 31 and f['dcount'] > 0:
+                elif f['size'] is 15 and f['dcount'] > 0:
                     film_big = True
 
             response_body = {
@@ -134,7 +135,7 @@ def all_film(request):
                     'start_date': str(film.startDate.month)+'월 '+str(film.startDate.day)+'일',
                     'end_date': str(film.endDate.month)+'월 '+str(film.endDate.day)+'일'
                 }for film in Film.objects.filter(owner=user.pk, endDate__year=f.endDate.year).order_by('endDate')
-            ]for f in Film.objects.filter(owner=user.pk).order_by('endDate')
+            ]for f in Film.objects.filter(owner=user.pk, isFull=True).order_by('endDate')
         }
         return JsonResponse(response_body, status=200)
     else:
@@ -188,6 +189,7 @@ def film_detail(request, pk):
             'end_date': str(film.endDate.month)+'월 '+str(film.endDate.day)+'일',
             'diaries': [
                 {
+                    'diary_id': diary.pk,
                     'image': diary.image,
                     'created_at': diary.createdAt.strftime("%Y-%m-%d")
                 } for diary in Diary.objects.filter(belong_to_film=film.pk)
