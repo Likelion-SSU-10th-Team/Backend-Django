@@ -12,12 +12,16 @@ from backend.settings import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORA
 #일기쓰기
 @csrf_exempt
 def diary_write(request):
+    print(request.POST)
+    print(request.FILES)
     n = 20
     rand_str = ""
     for i in range(n):
         rand_str += str(random.choice(string.ascii_uppercase + string.digits))
     try:
         user = User.objects.get(session_id=request.COOKIES.get('session_id'))
+        print("현재 유저 : ")
+        print(user)
         image_url = "https://myimageimagebucket.s3.ap-northeast-2.amazonaws.com/example/default.png"
         print(request.FILES.get('image'))
         if request.FILES.get('image') is not None:
