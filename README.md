@@ -1,3 +1,4 @@
+<div align="center">
 <img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=header&text=📷&fontSize=90" />
 
 # 스토리 필름 - 나만의 일기 작성 공간
@@ -52,3 +53,5 @@
   - 정예림 @limLion
 
 ![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=footer)
+ 
+ </
