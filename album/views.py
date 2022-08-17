@@ -22,7 +22,8 @@ def album_list(request):
     for album in albums:
         list.append(
             {
-                "album_name": album.name
+                "album_name": album.name,
+                "album_id": album.pk
             }
         )
     return JsonResponse({"albums": list}, status=200)
@@ -56,7 +57,8 @@ def album_detail(request, album_id) :
                 {
                     'created_at': diary.createdAt.strftime("%m월 %d일"),
                     'image': diary.image,
-                    'content': diary.content
+                    'content': diary.content,
+                    'diary_id': diary.pk
                 } for diary in d.Diary.objects.filter(pk=diary_id.diary.pk)
             ]
         }
