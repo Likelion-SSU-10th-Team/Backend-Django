@@ -81,19 +81,10 @@ def logout(request):
 
 
 def session(request):
-    print(request.COOKIES)
-    print(request.COOKIES.get('sessionid')) # edge
-    print(request.COOKIES.get('JSESSIONID')) # chrome
+    print(request.headers)
+    print(request.headers['session-id'])
     response = HttpResponse('session 테스트')
     response.__setitem__('session_id', 'qqq')
     response.__setitem__('authorization', 'qqq')
     response.set_cookie('test', 'test1111')
     return response
-
-
-def test(request):
-    url = "https://port-0-backend-django-1k5zz25l6f9nen1.gksl1.cloudtype.app/accounts/session"
-    # url = "http://localhost:8000/accounts/session"
-    result = rq.get(url).headers
-    print(result)
-    return HttpResponse(result, status=200)
