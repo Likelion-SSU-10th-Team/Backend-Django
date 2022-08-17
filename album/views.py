@@ -11,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 # session_id로 user 인식
 def find_user_by_sid(request):
     session_id = request.COOKIES.get('session_id')
-    # print("session_id : " + session_id)
+    print("session_id : " + session_id)
     return get_object_or_404(User, session_id=session_id)
 
 
@@ -25,6 +25,7 @@ def album_list(request):
         for album in albums:
             list.append(
                 {
+                    "album_id": album.pk,
                     "album_name": album.name
                 }
             )
@@ -56,19 +57,24 @@ def album_detail(request, album_id):
     user = find_user_by_sid(request)
     if request.method == 'GET':
         try:
-            album = Album.objects.get(pk=album_id, owner=user.pk)
-            diary_id = Composition.objects.get(album=album.pk)
+            album = Album.objects.get(pk=album_id)
+            diary_id = Composition.objects.filter(album=album)
+            print(diary_id)
+
         except:  # 로그인한 사람과 앨범의 소유 권한이 다를 때
             return HttpResponse('Invalid request', status=400)
+        # 영훈고친부분
         response_body = {
             'diaries': [
                 {
-                    'created_at': diary.createdAt.strftime("%m월 %d일"),
-                    'image': diary.image,
-                    'content': diary.content
-                } for diary in d.Diary.objects.filter(pk=diary_id.diary.pk)
+                    'diary_id': diary.diary.pk,
+                    'created_at': str(diary.diary.createdAt.month)+'월 '+str(diary.diary.createdAt.day)+'일',
+                    'image': diary.diary.image,
+                    'content': diary.diary.content
+                } for diary in Composition.objects.filter(album=album)
             ]
         }
+        #영훈고친부분끝
         return JsonResponse(response_body, status=200)
     else:
         return HttpResponse(status=400)
@@ -113,3 +119,27 @@ def select_album(request, diary_id, album_id):
             composition.save()
 
     return HttpResponse(status=200)
+
+
+# 일기가 속한 앨범 목록
+def send_album_id(request, diary_id):
+    user = find_user_by_sid(request)
+    if request.method == 'GET':
+        try:
+            diary = d.Diary.objects.get(pk=diary_id, writer=user.pk)
+        except:
+            return HttpResponse('Invalid request', status=400)
+        # 해당 다이어리가 속한 앨범객체들 가져오기
+        albumObjects = Composition.objects.filter(diary=diary.pk)
+        # 다이어리가 속한 앨범의 pk를 배열 형태로 보내주기
+        list = []
+        for albumObject in albumObjects:
+            list.append(
+                {
+                    "album_id": albumObject.album.pk,
+                    "album_name": albumObject.album.name
+                }
+            )
+        return JsonResponse({"album_name_list": list}, status=200)
+    else:
+        return HttpResponse(status=400)
