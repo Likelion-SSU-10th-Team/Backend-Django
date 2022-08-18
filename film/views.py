@@ -147,6 +147,9 @@ def all_film_classify(request):
         try:
             films = Film.objects.filter(owner=user).values('size').annotate(dcount=Count('size'))
             print(films)
+            film_small = 0
+            film_medium = 0
+            film_big = 0
             for f in films:
                 if f['size'] is 7:
                     film_small = f['dcount']
