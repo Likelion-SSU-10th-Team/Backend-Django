@@ -7,6 +7,7 @@ from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
+from album.models import Composition, Album
 from .models import *
 from accounts.models import User
 from diary.models import *
@@ -14,8 +15,6 @@ from diary.models import *
 
 # session_id로 user 인식
 def find_user_by_sid(request):
-    session_id = request.COOKIES.get('session_id')
-    print(type(request.COOKIES.get('session_id')))
     session_id = request.COOKIES.get('session_id')
     print("session_id : " + session_id)
     return get_object_or_404(User, session_id=session_id)
@@ -35,15 +34,13 @@ def main_film(request):
         try:
             if model_to_dict(user).get('current_film') is not None:
                 film = Film.objects.get(pk=model_to_dict(user).get('current_film'))  # 로그인한 사람이 쓰고있는 film이 무엇인지?
+                print(film)
                 if film.count == film.size:  # 리턴으로 Scoll 페이지 필요 정보 넘겨줌
-                    film_id = user.current_film
-                    user.current_film = None # user 정보 update(다 찼으니까 null로 바꿈)
-                    user.save()
                     film.isFull = True # Film통 정보 update(가득참, endDate -> update)
                     film.endDate = timezone.localtime()
                     film.save()
                 response_body = {
-                    'film_id': film_id,
+                    'film_id': film.pk,
                     'film_size': film.size,
                     'film_cnt': film.count,
                     'contents': [
@@ -198,3 +195,30 @@ def film_detail(request, pk):
         return JsonResponse(response_body, status=200)
     else:
         return HttpResponse(status=400)
+
+
+# 인화하기 누르면 모든 일기 들이 기본 앨범에 들어가도록
+@csrf_exempt
+def film_inhwa(request):
+    user = find_user_by_sid(request)
+    try:
+        film = Film.objects.get(pk=model_to_dict(user).get('current_film'))  # 로그인한 사람이 쓰고있는 film이 무엇인지?
+        user.current_film = None  # user 정보 update(다 찼으니까 null로 바꿈)
+        user.save()
+        for diary in Diary.objects.filter(belong_to_film=film):
+            Composition(
+                album=Album.objects.get(name='기본', owner=user),
+                diary=diary
+            ).save()
+        response_body = {
+            'diary': [
+                {
+                    'diary': diary.pk,  # 일기의 이미지만 가면 될듯?
+                    'image': diary.image,
+                    'date': diary.createdAt.strftime("%Y.%M.%D")
+                } for diary in Diary.objects.filter(belong_to_film=film.pk)
+            ]
+        }
+        return JsonResponse(response_body, status=200)
+    except:
+        return JsonResponse({"msg": "답변이 잘못 되었습니다."}, status=400)
