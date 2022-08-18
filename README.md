@@ -33,6 +33,12 @@
  
 <a href="https://github.com/Likelion-SSU-10th-Team/Frontend-JS" >Front-end Repository</a>
 
+## 파일 경로
+/home (인화 팝업, blank, 필름선택 팝업, 로그인 하기 전 intro) /home/print -> 인화 직전 스크롤 --> read /home/write -> 일기작성 /read -> 일기열람
+
+/films -> 필름 보관함 /films/film -> 필름 상세보기 --> read
+
+/albums -> 앨범 보관함 /albums/album -> 앨범 상세보기 --> read
 
 ***
 ## 개발 프레임 워크
