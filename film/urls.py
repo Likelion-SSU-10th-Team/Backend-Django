@@ -7,5 +7,5 @@ urlpatterns = [
     path('new', views.make_film), # film 만들기 / POST
     path('all', views.all_film), # film 보관함 전체 조회 / GET
     path('all/type', views.all_film_classify), # film 보관함 전체 종류별 조회 / GET
-
+    path('inhwa', views.film_inhwa), # film 인화하고 기본 앨범으로 종속시킴 / POST
 ]
