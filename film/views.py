@@ -145,7 +145,8 @@ def all_film_classify(request):
     user = find_user_by_sid(request)
     if request.method == 'GET':
         try:
-            films = Film.objects.filter(owner=user.pk).values('size').annotate(dcount=Count('size'))
+            films = Film.objects.filter(owner=user).values('size').annotate(dcount=Count('size'))
+            print(films)
             for f in films:
                 if f['size'] is 7:
                     film_small = f['dcount']
