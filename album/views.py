@@ -46,6 +46,12 @@ def make_album(request):
             owner=user
         )
         album.save()
+        # Composition 테이블에 새로 만든 앨범 객체 저장
+        composition = Composition(
+            album=album,
+            diary=None
+        )
+        composition.save()
         return HttpResponse(status=200)
     else:
         return HttpResponse(status=400)
@@ -98,7 +104,7 @@ def diary_detail(request, album_id, diary_id):
 
 # album 선택 / POST
 @csrf_exempt
-def select_album(request, diary_id, album_id):
+def select_album(request, diary_id):
     user = find_user_by_sid(request)
     diary = d.Diary.objects.get(pk=diary_id, writer=user.pk)
     albums = Album.objects.filter(owner=user.pk)
@@ -116,12 +122,13 @@ def select_album(request, diary_id, album_id):
                     diary=diary,
                     album=album
                 )
-            composition.save()
+                composition.save()
 
     return HttpResponse(status=200)
 
 
 # 일기가 속한 앨범 목록
+@csrf_exempt
 def send_album_id(request, diary_id):
     user = find_user_by_sid(request)
     if request.method == 'GET':
@@ -141,5 +148,36 @@ def send_album_id(request, diary_id):
                 }
             )
         return JsonResponse({"album_name_list": list}, status=200)
+    else:
+        return HttpResponse(status=400)
+
+
+@csrf_exempt
+def read_page(request, diary_id):
+    user = find_user_by_sid(request)
+    # 일기, 앨범, 댓글
+    if request.method == 'GET':
+        diary = d.Diary.objects.get(pk=diary_id, writer=user.pk)
+        response_body = {
+            'diary_info': {
+                'created_at': diary.createdAt.strftime("%Y.%m.%d"),
+                'image': diary.image,
+                'content': diary.content
+            },
+            'user_albums': [ # 유저가 만들었던 앨범 다 보여주기
+                {
+                    'album_id': album.pk,
+                    'album_name': album.name,
+                    'isBelong': Composition.objects.filter(album=album, diary=diary_id).exists()
+                }for album in Album.objects.filter(owner=user)
+            ],
+            'diary_comment': [ # 일기에 달린 댓글 다 보여주기
+                {
+                    'comment': comment.comment,
+                    'createdAt': comment.createdAt.strftime("%Y.%m.%d")
+                }for comment in d.Comment.objects.filter(belong_to_diary=diary_id)
+            ]
+        }
+        return JsonResponse(response_body, status=200)
     else:
         return HttpResponse(status=400)
