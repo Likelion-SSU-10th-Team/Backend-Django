@@ -1,3 +1,4 @@
+from django.forms import model_to_dict
 from django.shortcuts import render, get_object_or_404
 import bcrypt, json, random, string
 from .models import User
@@ -75,6 +76,15 @@ def logout(request):
 
     except KeyError:
         return JsonResponse({'message': "INVALID_KEYS"}, status=400)
+
+
+@csrf_exempt
+def userinfo(request):
+    session_id = request.COOKIES.get('session_id')
+    print("session_id : " + session_id)
+    user = get_object_or_404(User, session_id=session_id)
+    print(user.name)
+    return JsonResponse({"name": user.name}, status=200)
 
 
 def session(request):
