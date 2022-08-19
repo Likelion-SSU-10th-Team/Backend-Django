@@ -1,8 +1,11 @@
 import json
 
-import diary.models as d
+from django.forms import model_to_dict
+
 from accounts.models import User
 from django.shortcuts import render, get_object_or_404
+
+from diary.models import Diary, Comment
 from .models import *
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -71,6 +74,7 @@ def album_detail(request, album_id):
             return HttpResponse('Invalid request', status=400)
         # 영훈고친부분
         response_body = {
+            'album_name': model_to_dict(Album.objects.get(pk=album.pk))['name'],
             'diaries': [
                 {
                     'diary_id': diary.diary.pk,
@@ -91,7 +95,7 @@ def album_detail(request, album_id):
 def diary_detail(request, diary_id):
     user = find_user_by_sid(request)
     if request.method == 'GET' :
-        diary = d.Diary.objects.get(pk=diary_id, writer=user.pk)
+        diary = Diary.objects.get(pk=diary_id, writer=user.pk)
         response_body = {
             'created_at': diary.createdAt.strftime("%Y.%m.%d"),
             'image': diary.image,
@@ -108,7 +112,7 @@ def select_album(request):
     data = json.loads(request.body)
 
     user = find_user_by_sid(request)
-    diary = d.Diary.objects.get(pk=data['diary_id'], writer=user.pk)
+    diary = Diary.objects.get(pk=data['diary_id'], writer=user.pk)
     albums = Album.objects.filter(owner=user.pk)
 
     # album_id_list = [4, 5]
@@ -133,7 +137,7 @@ def send_album_id(request, diary_id):
     user = find_user_by_sid(request)
     if request.method == 'GET':
         try:
-            diary = d.Diary.objects.get(pk=diary_id, writer=user.pk)
+            diary = Diary.objects.get(pk=diary_id, writer=user.pk)
         except:
             return HttpResponse('Invalid request', status=400)
         # 해당 다이어리가 속한 앨범객체들 가져오기
@@ -157,7 +161,7 @@ def read_page(request, diary_id):
     user = find_user_by_sid(request)
     # 일기, 앨범, 댓글
     if request.method == 'GET':
-        diary = d.Diary.objects.get(pk=diary_id, writer=user.pk)
+        diary = Diary.objects.get(pk=diary_id, writer=user.pk)
         response_body = {
             'diary_info': {
                 'created_at': diary.createdAt.strftime("%Y.%m.%d"),
@@ -175,7 +179,7 @@ def read_page(request, diary_id):
                 {
                     'comment': comment.comment,
                     'createdAt': comment.createdAt.strftime("%Y.%m.%d")
-                }for comment in d.Comment.objects.filter(belong_to_diary=diary_id)
+                }for comment in Comment.objects.filter(belong_to_diary=diary_id)
             ]
         }
         return JsonResponse(response_body, status=200)
