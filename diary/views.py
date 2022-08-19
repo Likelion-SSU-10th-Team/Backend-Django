@@ -3,6 +3,7 @@ from django.forms import model_to_dict
 
 from django.views.decorators.csrf import csrf_exempt
 
+from album.models import Composition, Album
 from film.models import Film
 from .models import Diary, Comment
 from accounts.models import User
@@ -36,12 +37,18 @@ def diary_write(request):
         content = request.POST['content']
 
         if user.session_id:
-            Diary(
+            diary = Diary(
                 writer=user,
                 belong_to_film=user.current_film,
                 image=image_url,
                 content=content
-            ).save()
+            )
+            diary.save()
+            composition = Composition(
+                album=Album.objects.get(owner=user, name='기본'),
+                diary=diary
+            )
+            composition.save()
             film = Film.objects.get(pk=model_to_dict(user).get('current_film'))
             film.count += 1
             film.save()

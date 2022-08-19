@@ -49,12 +49,12 @@ def make_album(request):
             owner=user
         )
         album.save()
-        # Composition 테이블에 새로 만든 앨범 객체 저장
-        composition = Composition(
-            album=album,
-            diary=None
-        )
-        composition.save()
+        # # # Composition 테이블에 새로 만든 앨범 객체 저장
+        # composition = Composition(
+        #     album=album,
+        #     diary=None
+        # )
+        # composition.save()
         return HttpResponse(status=200)
     else:
         return HttpResponse(status=400)
