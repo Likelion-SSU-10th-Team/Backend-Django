@@ -56,11 +56,11 @@ def main_film(request):
         except:
             return JsonResponse({"msg": "실패!"}, status=400)
     # 3. 필름의 + 버튼을 누름 -> 일기 쓰는 페이지로 넘어가고 일기저장 버튼을 누름 -> 사이즈가 늘어나고 필름에 일기 등록됨 POST
-    elif request.method == 'POST':
-        film = Film.objects.get(pk=model_to_dict(user).get('current_film'))
-        film.count += 1
-        film.save()
-        return HttpResponse(status=200)
+    # elif request.method == 'POST':
+    #     film = Film.objects.get(pk=model_to_dict(user).get('current_film'))
+    #     film.count += 1
+    #     film.save()
+    #     return HttpResponse(status=200)
     else:
         return HttpResponse(status=400)
 
