@@ -33,7 +33,8 @@ def register(request):
 
 @csrf_exempt
 def login(request):
-    print(request)
+    print(request.headers)
+    print(request.COOKIES)
     n = 20
     rand_str = ""
     for i in range(n):
