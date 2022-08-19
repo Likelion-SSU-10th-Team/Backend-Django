@@ -15,6 +15,7 @@ from diary.models import *
 
 # session_id로 user 인식
 def find_user_by_sid(request):
+    print(request)
     session_id = request.COOKIES.get('session_id')
     print("session_id : " + session_id)
     return get_object_or_404(User, session_id=session_id)
