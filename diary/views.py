@@ -1,7 +1,9 @@
 import boto3, json, random, string
+from django.forms import model_to_dict
 
 from django.views.decorators.csrf import csrf_exempt
 
+from film.models import Film
 from .models import Diary, Comment
 from accounts.models import User
 from django.http import HttpResponse, JsonResponse
@@ -40,6 +42,10 @@ def diary_write(request):
                 image=image_url,
                 content=content
             ).save()
+            film = Film.objects.get(pk=model_to_dict(user).get('current_film'))
+            film.count += 1
+            film.save()
+            return JsonResponse({"msg": "diary save success"}, status=200)
         return JsonResponse({"msg": "일기 작성 성공"}, status=200)
 
     except KeyError:
