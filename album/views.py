@@ -88,7 +88,7 @@ def album_detail(request, album_id):
 
 # diary의 정보 넘겨주기 / GET
 @csrf_exempt
-def diary_detail(request, album_id, diary_id):
+def diary_detail(request, diary_id):
     user = find_user_by_sid(request)
     if request.method == 'GET' :
         diary = d.Diary.objects.get(pk=diary_id, writer=user.pk)
@@ -104,15 +104,15 @@ def diary_detail(request, album_id, diary_id):
 
 # album 선택 / POST
 @csrf_exempt
-def select_album(request, diary_id):
+def select_album(request):
+    data = json.loads(request.body)
+
     user = find_user_by_sid(request)
-    diary = d.Diary.objects.get(pk=diary_id, writer=user.pk)
+    diary = d.Diary.objects.get(pk=data['diary_id'], writer=user.pk)
     albums = Album.objects.filter(owner=user.pk)
 
     # album_id_list = [4, 5]
     # album_id_list = request.POST.getlist('selected_album[]')
-
-    data = json.loads(request.body)
     album_id_list = data['selected_album']
     print(album_id_list)
     for i in range(len(album_id_list)):
