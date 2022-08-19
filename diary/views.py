@@ -48,12 +48,12 @@ def diary_write(request):
 
 #댓글작성
 @csrf_exempt
-def comment(request, diary_id):
+def comment(request):
     data = json.loads(request.body)
 
     try:
         user = User.objects.get(session_id=request.COOKIES.get('session_id'))
-        diary = Diary.objects.get(pk=diary_id, writer=user.pk)
+        diary = Diary.objects.get(pk=data['diary_id'], writer=user.pk)
         if diary:
             Comment.objects.create(
                 belong_to_diary=diary,
