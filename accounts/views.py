@@ -33,6 +33,7 @@ def register(request):
 
 @csrf_exempt
 def login(request):
+    print(request)
     n = 20
     rand_str = ""
     for i in range(n):

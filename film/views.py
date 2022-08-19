@@ -14,6 +14,7 @@ from diary.models import *
 
 
 # session_id로 user 인식
+@csrf_exempt
 def find_user_by_sid(request):
     print(request)
     session_id = request.COOKIES.get('session_id')
