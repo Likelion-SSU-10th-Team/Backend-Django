@@ -2,7 +2,7 @@
 > #### 이야기를 남기다, 또 하나의 필름을 열다
 <br>
 
-![1](https://ifh.cc/g/FfmHZr.jpg)
+![1](https://ifh.cc/g/mgJddW.jpg)
 ![2](https://ifh.cc/g/XdJyDG.jpg)
 ![3](https://ifh.cc/g/MWgrT6.jpg)
 ![4](https://ifh.cc/g/sZFzOk.jpg)
