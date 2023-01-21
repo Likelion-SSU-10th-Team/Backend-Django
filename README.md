@@ -2,10 +2,16 @@
 > #### 이야기를 남기다, 또 하나의 필름을 열다
 <br>
 
-![1](https://ifh.cc/g/mgJddW.jpg)
-![2](https://ifh.cc/g/XdJyDG.jpg)
-![3](https://ifh.cc/g/MWgrT6.jpg)
-![4](https://ifh.cc/g/sZFzOk.jpg)
+![1](https://ifh.cc/g/5DfkYA.jpg)
+![2](https://ifh.cc/g/kPKWqx.jpg)
+![3](https://ifh.cc/g/rTXZbR.jpg)
+![4](https://ifh.cc/g/q8wdfY.jpg)
+![5](https://ifh.cc/g/jjLZBP.jpg)
+![6](https://ifh.cc/g/jJSKSY.jpg)
+![7](https://ifh.cc/g/qc1xXy.jpg)
+![8](https://ifh.cc/g/rcg3HF.jpg)
+![9](https://ifh.cc/g/o6hmjB.jpg)
+![10](https://ifh.cc/g/k5pVwn.jpg)
 
 
 ## 디렉터리 구조
@@ -24,11 +30,27 @@
 
 
 ## 파일 경로
-/home (인화 팝업, blank, 필름선택 팝업, 로그인 하기 전 intro) /home/print -> 인화 직전 스크롤 --> read /home/write -> 일기작성 /read -> 일기열람
+### `/home`
+- 인화 팝업
+- blank
+- 필름선택 팝업
+- 로그인 하기 전 intro
+### `/home/print`
+- 인화 직전 스크롤 
+### `/home/write`
+- 일기작성 
+### `/read` 
+- 일기열람
 
-/films -> 필름 보관함 /films/film -> 필름 상세보기 --> read
+### `/films` 
+- 필름 보관함 
+### `/films/film` 
+- 필름 상세보기
 
-/albums -> 앨범 보관함 /albums/album -> 앨범 상세보기 --> read
+### `/albums` 
+- 앨범 보관함 
+### `/albums/album` 
+- 앨범 상세보기 
 
 <br>
 
