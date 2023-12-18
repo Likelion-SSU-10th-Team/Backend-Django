@@ -1,7 +1,7 @@
 # 스토리 필름 - 나만의 일기 작성 공간
 > #### 이야기를 남기다, 또 하나의 필름을 열다
 <br>
-
+<img src="https://drive.google.com/uc?id=1exSSdc-JYu3xf8Y5weQO9mC7SrOOlV6F"/>
 <img src="https://drive.google.com/uc?id=1oo_RF4htTlPMZsNrdqHGDzi2N7yUGxKV"/>
 <img src="https://drive.google.com/uc?id=1KRlv56M-SBuQ_h_Sb_Kxn4ZRjWaY2B_J"/>
 <img src="https://drive.google.com/uc?id=13_OgtB6uuP_nChY4W9qqHJK-RCfLdhIw"/>
