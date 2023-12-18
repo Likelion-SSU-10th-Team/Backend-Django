@@ -2,16 +2,13 @@
 > #### 이야기를 남기다, 또 하나의 필름을 열다
 <br>
 
-![1](https://ifh.cc/g/5DfkYA.jpg)
-![2](https://ifh.cc/g/kPKWqx.jpg)
-![3](https://ifh.cc/g/rTXZbR.jpg)
-![4](https://ifh.cc/g/q8wdfY.jpg)
-![5](https://ifh.cc/g/jjLZBP.jpg)
-![6](https://ifh.cc/g/jJSKSY.jpg)
-![7](https://ifh.cc/g/qc1xXy.jpg)
-![8](https://ifh.cc/g/rcg3HF.jpg)
-![9](https://ifh.cc/g/o6hmjB.jpg)
-![10](https://ifh.cc/g/k5pVwn.jpg)
+<img src="https://drive.google.com/uc?id=1oo_RF4htTlPMZsNrdqHGDzi2N7yUGxKV"/>
+<img src="https://drive.google.com/uc?id=1KRlv56M-SBuQ_h_Sb_Kxn4ZRjWaY2B_J"/>
+<img src="https://drive.google.com/uc?id=13_OgtB6uuP_nChY4W9qqHJK-RCfLdhIw"/>
+<img src="https://drive.google.com/uc?id=1guwUGeAMGVatMIsV1eczANqE-mxg-Zrk"/>
+<img src="https://drive.google.com/uc?id=1dpR9A6JkHyce27wpkPiha8SnzW8dUC-l"/>
+<img src="https://drive.google.com/uc?id=1E7kGGV_rzKaTkWEfsGF0dwfuArkjW9gm"/>
+<img src="https://drive.google.com/uc?id=1MAWb-qME7xzNu3S9eWAmERv1-kFwLQ1Z" alt="Google Drive Image"/>
 
 
 ## 디렉터리 구조
@@ -44,12 +41,12 @@
 
 ### `/films` 
 - 필름 보관함 
-### `/films/film` 
+### `/films/{film_id}` 
 - 필름 상세보기
 
 ### `/albums` 
 - 앨범 보관함 
-### `/albums/album` 
+### `/albums/{album_id}` 
 - 앨범 상세보기 
 
 <br>
